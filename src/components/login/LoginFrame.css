@@ -104,7 +104,7 @@
   z-index: 0;
   padding: 0px 12px;
   gap: 6px;
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
 }
 
 .btnLogin {
@@ -129,6 +129,34 @@
   background-color: rgb(232, 237, 235);
   border: 1px solid rgb(193, 199, 198);
   color: rgb(136, 147, 151);
+  font-size: 13px;
+  font-weight: 500;
+  height: 36px;
+}
+
+.btnLogin2 {
+  pointer-events: auto;
+  height: 32px;
+  width: 90px;
+  font-size: 15px;
+  margin-top: 48px;
+  margin-bottom: 0px;
+  padding: 0px;
+  margin: 0px;
+  display: inline-flex;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+  transition: all 150ms ease-in-out 0s;
+  position: relative;
+  text-decoration: none;
+  z-index: 0;
+  font-family: "Euclid Circular A", Akzidenz, "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+  border-radius: 6px;
+  color: rgb(255, 255, 255);
+  background-color: rgb(0, 89, 63);
+  border-color: rgb(0, 89, 63);
+  box-shadow: rgb(192 250 230) 0px 0px 0px 3px;
   font-size: 13px;
   font-weight: 500;
   height: 36px;
@@ -221,6 +249,27 @@ fieldset {
 }
 
 .inputEmail {
+  height: 36px;
+  font-size: 14px;
+  line-height: 20px;
+  width: 100%;
+  font-weight: normal;
+  border: 1px solid rgb(136, 147, 151);
+  transition: border-color 150ms ease-in-out 0s;
+  z-index: 1;
+  outline: none;
+  color: rgb(0, 30, 43);
+  background-color: rgb(255, 255, 255);
+  font-size: 13px;
+  height: 36px;
+  padding-left: 12px;
+  font-family: "Euclid Circular A", Akzidenz, "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+  border-radius: 6px;
+  padding-right: 12px;
+}
+
+.inputPassword {
   height: 36px;
   font-size: 14px;
   line-height: 20px;

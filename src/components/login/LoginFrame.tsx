@@ -5,8 +5,8 @@ import { logInReducer } from '../../state/features/loggedInSlice';
 import GoggleLogin from "./GoggleLogin";
 import GitHubLogin from "./GitHubLogin";
 import React, { ChangeEvent, useState } from "react";
-import './LoginFrame.css'
 import { signInWithEmailAndPassword } from "firebase/auth";
+import './LoginFrame.css'
 
 const LoginFrame: React.FC = () => {
     const dispatch = useDispatch();
@@ -14,6 +14,7 @@ const LoginFrame: React.FC = () => {
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
     const [validEmail, setValidEmail] = useState(false)
+    const [buttonLogin, setButtonLogin] = useState(false)
 
     const emailLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
@@ -54,16 +55,19 @@ const LoginFrame: React.FC = () => {
             const validData = (/^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/.test(userName)) ||
                 (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(userName))
             setValidEmail(validData)
+            if (!validData) {
+                setButtonLogin(false)
+            }
         }
+    }
+
+    const validatePassword = (e: ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value)
     }
 
     const activePassword = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
-        const inputPassword = document.createElement("div");
-        inputPassword.innerHTML = "<input />";
-        const divPassword = document.getElementById('passwordFrame');
-        divPassword?.appendChild(inputPassword);
-        const btnLogin = document.getElementById('login');
+        setButtonLogin(true)
     }
 
     return (
@@ -100,15 +104,24 @@ const LoginFrame: React.FC = () => {
                                 {validEmail ? <img src="src/assets/Green_check.svg" alt="Good" className='checked' /> : <img src="src/assets/False.svg" alt="Bad" className='wrong' />}
                             </div>
                             <div id="passwordFrame" className='passwordFrame'>
-
+                                {(buttonLogin) && <input
+                                    onChange={(e) => validatePassword(e)}
+                                    name='password'
+                                    value={password}
+                                    type='password'
+                                    minLength={8}
+                                    required
+                                    className="inputPassword"
+                                    id="inputPassword" />
+                                }
                             </div>
                         </div>
                     </label>
                 </fieldset>
                 <footer>
-                    <button type="submit" onClick={(e) => activePassword(e)} disabled={!validEmail} className="btnLogin" name="login" >
+                    <button type="submit" onClick={(buttonLogin) ? (e) => emailLogin(e) : (e) => activePassword(e)} disabled={!validEmail} className={validEmail ? 'btnLogin2' : 'btnLogin'} name="login" >
                         <div className={validEmail ? 'btnLoginText2' : 'btnLoginText'} id='btnLoginText'>
-                            Next
+                            {(buttonLogin) ? "Login" : "Next"}
                         </div>
                     </button>
                     <span className='registerLogin'>
