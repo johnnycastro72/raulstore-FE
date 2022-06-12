@@ -1,0 +1,17 @@
+.headerLogo {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  -webkit-box-pack: start;
+  justify-content: start;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  line-height: 1rem;
+  letter-spacing: -0.3px;
+  font-family: "MongoDB Value Serif", "Times New Roman", serif;
+  color: rgb(0, 104, 74);
+}
+
+.headerLogo H2 {
+    margin-left: 1rem;
+}

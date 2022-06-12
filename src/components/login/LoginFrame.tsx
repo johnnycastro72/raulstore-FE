@@ -25,7 +25,8 @@ const LoginFrame: React.FC = () => {
                     // Logged in
                     //If the logged in is succesfull you will acces this part of teh code where you will 
                     //get a lot of information about the user that have logged in
-                    const user = userCredential.user;
+                    const {displayName, email, photoURL, uid} = userCredential.user
+                    const user = {displayName, email, photoURL, uid};
 
                     /*With the information of the user you can populate an state that is mainly focused on 
                     holding the information of the user that is logged in*/

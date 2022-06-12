@@ -5,11 +5,11 @@ import './App.css'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import { stateType } from './state/store'
+import { storeType } from './state/store'
 
 function App() {
 
-  const { user } = useSelector((state: stateType) => state.logged)
+  const { user } = useSelector((state: storeType) => state.logged)
 
   const navigate = useNavigate()
 
