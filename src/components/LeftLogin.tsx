@@ -3,15 +3,17 @@ import { auth } from "../firebaseConfig";
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
 import { logInReducer } from '../state/features/loggedInSlice';
+import { useState } from 'react';
 
 const providerGoogleAuth = new GoogleAuthProvider();
 
 const LeftLogin: React.FC = () => {
 
+    const [userName, setUserName] = useState('')
+    const [password, setPassword] = useState('')
+
     const dispatch = useDispatch();
-
     const navigate = useNavigate();
-
     const signInWithGoogleButton = () => {
 
         signInWithPopup(auth, providerGoogleAuth)
@@ -82,7 +84,16 @@ const LeftLogin: React.FC = () => {
                         <div className='demailLogin'>
                             <div className='emailFrame'>
                                 <div className='inputFrame'>
-                                    <input name="username" autoComplete="email" type="text" className='inputEmail' required placeholder='' id='username' />
+                                    <input 
+                                    onChange={(e) => setUserName(e.target.value)} 
+                                    name="userName" 
+                                    value={userName} 
+                                    autoComplete="email" 
+                                    type="email" 
+                                    className='inputEmail' 
+                                    required 
+                                    placeholder='' 
+                                    id='username' />
                                 </div>
                             </div>
                         </div>
