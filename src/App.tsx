@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import './App.css'
 import Login from './pages/Login'
+import Register from './pages/Register'
 import { stateType } from './state/store'
 
 function App() {
@@ -19,9 +20,10 @@ function App() {
 
   return (
     <div className="App">
-        <Routes>
-          <Route path="login" element={<Login />} />
-        </Routes>
+      <Routes>
+        <Route path="login" element={<Login />} />
+        <Route path='register' element={<Register />} />
+      </Routes>
     </div>
   )
 }

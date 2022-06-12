@@ -1,0 +1,17 @@
+.info2Frame {
+    width: calc(100vw - 385px);
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    order: 2;
+    background: url(src/assets/istockphoto-477828354-612x612.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    display: block;
+    -webkit-box-align: inherit;
+    align-items: inherit;
+    position: absolute;
+    left: 385px;
+  }

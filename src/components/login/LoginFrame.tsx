@@ -39,11 +39,12 @@ const LoginFrame: React.FC = () => {
                     //the user what went wrong
                     const errorCode = error.code;
                     const errorMessage = error.message;
+                    setButtonLogin(false)
                     navigate('/login')
                 });
-
             setPassword('')
             setUserName('')
+
         }
 
     }
@@ -103,20 +104,22 @@ const LoginFrame: React.FC = () => {
                                 </div>
                                 {validEmail ? <img src="src/assets/Green_check.svg" alt="Good" className='checked' /> : <img src="src/assets/False.svg" alt="Bad" className='wrong' />}
                             </div>
-                            <div id="passwordFrame" className='passwordFrame'>
-                                {(buttonLogin) && <input
-                                    onChange={(e) => validatePassword(e)}
-                                    name='password'
-                                    value={password}
-                                    type='password'
-                                    minLength={8}
-                                    required
-                                    className="inputPassword"
-                                    id="inputPassword" />
-                                }
-                            </div>
                         </div>
                     </label>
+                    {(buttonLogin) && <label htmlFor="password" id='passwordLabel' className='labelLogin'>
+                        Password
+                        <div id="passwordFrame" className='divEmailLogin'>
+                            <input
+                                onChange={(e) => validatePassword(e)}
+                                name='password'
+                                value={password}
+                                type='password'
+                                minLength={8}
+                                required
+                                className="inputPassword"
+                                id="inputPassword" />
+                        </div>
+                    </label>}
                 </fieldset>
                 <footer>
                     <button type="submit" onClick={(buttonLogin) ? (e) => emailLogin(e) : (e) => activePassword(e)} disabled={!validEmail} className={validEmail ? 'btnLogin2' : 'btnLogin'} name="login" >
@@ -130,7 +133,7 @@ const LoginFrame: React.FC = () => {
                     </span>
                 </footer>
             </form>
-        </div>
+        </div >
     )
 }
 

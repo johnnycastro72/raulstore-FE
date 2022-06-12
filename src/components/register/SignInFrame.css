@@ -1,0 +1,80 @@
+.sigInFrame {
+  margin-top: 0%;
+  display: flex;
+  flex-direction: column;
+  width: 385px;
+  height: auto;
+  order: 2;
+}
+
+.formSignIn {
+  flex: 1 0 auto;
+  margin: 25px 0px 0px 25px;
+}
+
+.headerSignIn {
+  display: flex;
+  flex-wrap: wrap;
+  width: 300px;
+  -webkit-box-pack: start;
+  justify-content: start;
+  margin-top: 0px;
+  margin-bottom: 5px;
+  line-height: 5px;
+  letter-spacing: -0.3px;
+  font-family: "MongoDB Value Serif", "Times New Roman", serif;
+  color: rgb(0, 104, 74);
+}
+
+.msg1SignIn {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 32px;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+  font-weight: 400;
+  font-family: "MongoDB Value Serif", "Times New Roman", serif;
+  color: rgb(0, 104, 74);
+}
+
+.emailSignIn {
+  border: none;
+  margin: 0px 0px 20px;
+  padding: 0px;
+}
+
+.labelSignIn {
+  font-size: 13px;
+  color: rgb(61, 79, 88);
+  position: relative;
+  height: 16px;
+  width: 36px;
+  font-weight: bold;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+}
+
+.divEmailSignIn {
+  width: 300px;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.loginSpan {
+  display: inline;
+  text-align: start;
+  margin: 15px;
+  color: rgb(28, 45, 56);
+  font-size: 14px;
+}
+
+.loginLink {
+  display: inline;
+  text-align: start;
+  margin: 10px;
+  font-size: 14px;
+  display: inline;
+  text-decoration: none;
+  color: rgb(1, 107, 248);
+}

@@ -1,13 +1,14 @@
 import React from 'react'
-import LeftLogin from '../components/login/LoginFrame'
-import RightLogin from '../components/login/InfoFrame'
+import LoginFrame from '../components/login/LoginFrame'
+import InfoFrame from '../components/login/InfoFrame'
+import '../components/login/Login.css'
 
 const Login = () => {
   return (
-    <div className='mainLogin'>
-      <div className="rightLogin">
-        <LeftLogin />
-        <RightLogin />
+    <div className='loginFrame'>
+      <div className="divInfoFrame">
+        <LoginFrame />
+        <InfoFrame />
       </div>
     </div>
   )
