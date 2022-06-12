@@ -2,16 +2,51 @@ import { auth } from "../../firebaseConfig";
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
 import { logInReducer } from '../../state/features/loggedInSlice';
-import { validate } from 'uuid';
 import GoggleLogin from "./GoggleLogin";
 import GitHubLogin from "./GitHubLogin";
-import { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import './LoginFrame.css'
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const LoginFrame: React.FC = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
     const [validEmail, setValidEmail] = useState(false)
+
+    const emailLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault()
+
+        if (userName && password) {
+            signInWithEmailAndPassword(auth, userName, password)
+                .then((userCredential) => {
+                    // Logged in
+                    //If the logged in is succesfull you will acces this part of teh code where you will 
+                    //get a lot of information about the user that have logged in
+                    const user = userCredential.user;
+
+                    /*With the information of the user you can populate an state that is mainly focused on 
+                    holding the information of the user that is logged in*/
+                    // ...
+                    dispatch(logInReducer(user))
+                    navigate('/home')
+                })
+                .catch((error) => {
+
+                    //If the logged in is not succesfull yu will get to this part and with the message you can tell 
+                    //the user what went wrong
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    navigate('/login')
+                });
+
+            setPassword('')
+            setUserName('')
+        }
+
+    }
+
 
     const validateEmail = (e: ChangeEvent<HTMLInputElement>) => {
         setUserName(e.target.value)
@@ -48,7 +83,7 @@ const LoginFrame: React.FC = () => {
                 <fieldset className='emailLogin'>
                     <label htmlFor="username" id='usernameLabel' className='labelLogin'>
                         Email address
-                        <div className='demailLogin'>
+                        <div className='divEmailLogin'>
                             <div className='emailFrame'>
                                 <div className='inputFrame'>
                                     <input
