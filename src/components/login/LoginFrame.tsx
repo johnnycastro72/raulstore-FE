@@ -39,6 +39,7 @@ const LoginFrame: React.FC = () => {
                     //the user what went wrong
                     const errorCode = error.code;
                     const errorMessage = error.message;
+                    setValidEmail(false)
                     setButtonLogin(false)
                     navigate('/login')
                 });

@@ -1,10 +1,10 @@
 import './InfoFrame.css'
 
-const RightLogin = () => {
+const InfoFrame = () => {
   return (
     <div className='infoFrame'>
     </div>
   )
 }
 
-export default RightLogin
+export default InfoFrame

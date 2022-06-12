@@ -35,10 +35,12 @@ const SignInFrame: React.FC = () => {
           const errorCode = error.code;
           const errorMessage = error.message;
 
+          setValidEmail(false)
+          setButtonSignIn(false)
           navigate('/login')
         });
-        setUserName('')
-        setPassword('')
+      setUserName('')
+      setPassword('')
     }
   }
 
