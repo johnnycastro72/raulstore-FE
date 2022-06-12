@@ -1,6 +1,6 @@
 import React from 'react'
-import LeftLogin from '../components/LeftLogin'
-import RightLogin from '../components/RightLogin'
+import LeftLogin from '../components/login/LoginFrame'
+import RightLogin from '../components/login/InfoFrame'
 
 const Login = () => {
   return (
