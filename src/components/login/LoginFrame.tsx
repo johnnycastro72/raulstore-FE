@@ -6,6 +6,7 @@ import GoggleLogin from "./GoggleLogin";
 import GitHubLogin from "./GitHubLogin";
 import React, { ChangeEvent, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { userType } from '../../state/features/loggedInSlice'
 import './LoginFrame.css'
 
 const LoginFrame: React.FC = () => {
@@ -25,13 +26,13 @@ const LoginFrame: React.FC = () => {
                     // Logged in
                     //If the logged in is succesfull you will acces this part of teh code where you will 
                     //get a lot of information about the user that have logged in
-                    const {displayName, email, photoURL, uid} = userCredential.user
-                    const user = {displayName, email, photoURL, uid};
+                    const {email, uid} = userCredential.user
+                    const user = {email, uid, photoURL: "src/assets/user.png"};
 
                     /*With the information of the user you can populate an state that is mainly focused on 
                     holding the information of the user that is logged in*/
                     // ...
-                    dispatch(logInReducer(user))
+                    dispatch(logInReducer(user as userType))
                     navigate('/home')
                 })
                 .catch((error) => {
@@ -74,7 +75,7 @@ const LoginFrame: React.FC = () => {
     }
 
     return (
-        <div className='loginFrame'>
+        <div className='loginFrame2'>
             <form action="" method="post" className='formLogin'>
                 <div className='headerLogin'>
                     <img src="src\assets\hammer-and-wrench-svgrepo-com.svg" alt="" width="35vw" />
@@ -87,9 +88,9 @@ const LoginFrame: React.FC = () => {
                 <div className='orLogin'>
                     <span className='orinLogin'>or</span>
                 </div>
-                <fieldset className='emailLogin'>
+                <div className='emailLogin2'>
                     <label htmlFor="username" id='usernameLabel' className='labelLogin'>
-                        Email address
+                        <p>Email address</p>
                         <div className='divEmailLogin'>
                             <div className='emailFrame'>
                                 <div className='inputFrame'>
@@ -108,9 +109,9 @@ const LoginFrame: React.FC = () => {
                             </div>
                         </div>
                     </label>
-                    {(buttonLogin) && <label htmlFor="password" id='passwordLabel' className='labelLogin'>
+                    {(buttonLogin) && <label htmlFor="password" id='passwordLabel' className='labelPass'>
                         Password
-                        <div id="passwordFrame" className='divEmailLogin'>
+                        <div id="passwordFrame" className='divEmailPass'>
                             <input
                                 onChange={(e) => validatePassword(e)}
                                 name='password'
@@ -122,7 +123,7 @@ const LoginFrame: React.FC = () => {
                                 id="inputPassword" />
                         </div>
                     </label>}
-                </fieldset>
+                </div>
                 <footer>
                     <button type="submit" onClick={(buttonLogin) ? (e) => emailLogin(e) : (e) => activePassword(e)} disabled={!validEmail} className={validEmail ? 'btnLogin2' : 'btnLogin'} name="login" >
                         <div className={validEmail ? 'btnLoginText2' : 'btnLoginText'} id='btnLoginText'>

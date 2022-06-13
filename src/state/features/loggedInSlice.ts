@@ -7,8 +7,8 @@ export interface stateType {
 export interface userType {
     displayName?: string
     email?: string
-    photoURL?: string 
-    uid: string
+    photoURL?: string
+    uid?: string
 }
 
 const initialState: stateType = {
