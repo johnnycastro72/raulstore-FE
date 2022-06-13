@@ -17,8 +17,8 @@ const ProductSuppliers = () => {
       <tbody>
         {value.map((pSupplier: productSupplier) => {
           return (
-            <tr>
-              <td>{pSupplier.id}</td>
+            <tr key={pSupplier.id}>
+              <td>{pSupplier.taxPayerId}</td>
               <td>{pSupplier.supplierName}</td>
               <td>{pSupplier.supplierPhone}</td>
             </tr>);

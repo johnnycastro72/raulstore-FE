@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { Action } from "history"
 
 interface productSupplierState {
     value: productSupplier[]
