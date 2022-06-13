@@ -14,7 +14,7 @@
   cursor: pointer;
 }
 span.icon2 {
-  background: url("src/assets/github.png") transparent 5px 50% no-repeat;
+  background: url("https://firebasestorage.googleapis.com/v0/b/raul-s-hardware-store.appspot.com/o/assets%2Fgithub.png?alt=media&token=eec08d3a-3a96-4d38-931e-2ce8b9a7c1ea") transparent 5px 50% no-repeat;
   background-size: 92% 53%;
   background-position: 1vw;
   display: inline-block;

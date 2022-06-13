@@ -26,7 +26,7 @@ const LoginFrame: React.FC = () => {
                     //If the logged in is succesfull you will acces this part of teh code where you will 
                     //get a lot of information about the user that have logged in
                     const { email, uid } = userCredential.user
-                    const user = { email, uid, photoURL: "src/assets/user.png" };
+                    const user = { email, uid, photoURL: "https://firebasestorage.googleapis.com/v0/b/raul-s-hardware-store.appspot.com/o/assets%2Fuser.png?alt=media&token=59cadf34-5b9c-4779-a655-5e2d9f54f56b" };
 
                     /*With the information of the user you can populate an state that is mainly focused on 
                     holding the information of the user that is logged in*/
@@ -77,7 +77,7 @@ const LoginFrame: React.FC = () => {
         <div className='loginFrame2'>
             <form action="" method="post" className='formLogin'>
                 <div className='headerLogin'>
-                    <img src="src\assets\hammer-and-wrench-svgrepo-com.svg" alt="" width="35vw" />
+                    <img src="https://firebasestorage.googleapis.com/v0/b/raul-s-hardware-store.appspot.com/o/assets%2Fhammer-and-wrench-svgrepo-com.svg?alt=media&token=daa32d6e-a95e-4068-abd6-fc51789c5f14" alt="" width="35vw" />
                     <h2>Raul's Hardware Store</h2>
                 </div>
                 <h2 className='msg1Login'>Log in to your account</h2>
@@ -104,7 +104,7 @@ const LoginFrame: React.FC = () => {
                                         placeholder=''
                                         id='username' />
                                 </div>
-                                {validEmail ? <img src="src/assets/Green_check.svg" alt="Good" className='checked' /> : <img src="src/assets/False.svg" alt="Bad" className='wrong' />}
+                                {validEmail ? <img src="https://firebasestorage.googleapis.com/v0/b/raul-s-hardware-store.appspot.com/o/assets%2FGreen_check.svg.png?alt=media&token=c0410393-02fd-453c-89cf-1abfad2b4ffe" alt="Good" className='checked' /> : <img src="https://firebasestorage.googleapis.com/v0/b/raul-s-hardware-store.appspot.com/o/assets%2FFalse.svg?alt=media&token=435aaf5a-9351-412f-84d4-cc5b5d68dec4" alt="Bad" className='wrong' />}
                             </div>
                         </div>
                     </label>

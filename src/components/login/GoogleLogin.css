@@ -15,7 +15,7 @@
 }
 
 span.icon {
-  background: url("src/assets/g-logo.png") transparent 5px 50% no-repeat;
+  background: url("https://firebasestorage.googleapis.com/v0/b/raul-s-hardware-store.appspot.com/o/assets%2Fg-logo.png?alt=media&token=a865b42f-2cf0-43ec-a042-31d566e62169") transparent 5px 50% no-repeat;
   background-size: 50% 50%;
   background-position: 1vw;
   display: inline-block;

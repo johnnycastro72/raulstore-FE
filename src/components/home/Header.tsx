@@ -20,7 +20,7 @@ const Header = () => {
   return (
     <Stack direction="horizontal">
       <div className='headerLogo'>
-        <img src="src\assets\hammer-and-wrench-svgrepo-com.svg" alt="" width="35vw" />
+        <img src="https://firebasestorage.googleapis.com/v0/b/raul-s-hardware-store.appspot.com/o/assets%2Fhammer-and-wrench-svgrepo-com.svg?alt=media&token=daa32d6e-a95e-4068-abd6-fc51789c5f14" alt="" width="35vw" />
         <h2>Raul's Hardware Store</h2>
       </div>
       <div className="ms-auto photo">

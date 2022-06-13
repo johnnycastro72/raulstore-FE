@@ -2,7 +2,7 @@ import { GithubAuthProvider, OAuthCredential, signInWithPopup } from 'firebase/a
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { auth } from "../../firebaseConfig";
-import { logInReducer } from '../../state/features/loggedInSlice';
+import { logInReducer, userType } from '../../state/features/loggedInSlice';
 import './GitHubLogin.css'
 
 const providerGitHubAuth = new GithubAuthProvider();
@@ -28,7 +28,7 @@ const GitHubLogin = () => {
                 /*Whit the information of the user you can populate an state that is mainly focused on 
                   holding the information of the user that is logged in*/
 
-                dispatch(logInReducer(user))
+                dispatch(logInReducer(user as userType))
 
                 navigate('/home')
 

@@ -34,6 +34,9 @@ const productSupplierSlice = createSlice({
     name: 'productSupplier',
     initialState,
     reducers: {
+        getAllProductSupplier: (state, action: PayloadAction<productSupplier[]>) => {
+            state.value = action.payload
+        },
         addProductSupplier: (state, action: PayloadAction<productSupplier>) => {
             state.value.push(action.payload)
         },
@@ -45,4 +48,4 @@ const productSupplierSlice = createSlice({
 
 export default productSupplierSlice.reducer
 
-export const { addProductSupplier, removeProductSupplier } = productSupplierSlice.actions
+export const { getAllProductSupplier, addProductSupplier, removeProductSupplier } = productSupplierSlice.actions
