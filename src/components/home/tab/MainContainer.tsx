@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Container, Tab, Tabs } from "react-bootstrap"
 import './MainContainer.css'
+import ProductSuppliers from "./ProductSuppliers"
 
 const MainContainer = () => {
 
@@ -11,13 +12,13 @@ const MainContainer = () => {
       <Tabs
         defaultActiveKey={key}
         id="controlled-tab"
-        onSelect={(k) => setKey((k)?k:"products")}
+        onSelect={(k) => setKey((k) ? k : "products")}
         className="mb-3">
         <Tab eventKey="products" title="Available Products">
           Products tab
         </Tab>
         <Tab eventKey="supplier" title="Product Suppliers">
-          Products suppliers tab
+          <ProductSuppliers />
         </Tab>
         <Tab eventKey="receipt" title="Receipts">
           Receipt tab

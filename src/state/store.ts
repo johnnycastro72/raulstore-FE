@@ -1,14 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import loggedInReducer from './features/loggedInSlice'
+import productSupplierReducer from './features/productSupplierSlice'
 
 const store = configureStore({
     reducer: {
-        logged: loggedInReducer
+        logged: loggedInReducer,
+        productSupplier: productSupplierReducer
     }
 })
 
-type storeType = ReturnType<typeof store.getState>
+export type storeType = ReturnType<typeof store.getState>
+export type appDispatch = typeof store.dispatch
 
 export default store
-
-export type { storeType }

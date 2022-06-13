@@ -1,12 +1,11 @@
 import { auth } from "../../firebaseConfig";
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
-import { logInReducer } from '../../state/features/loggedInSlice';
+import { logInReducer, userType } from '../../state/features/loggedInSlice';
 import GoggleLogin from "./GoggleLogin";
 import GitHubLogin from "./GitHubLogin";
 import React, { ChangeEvent, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { userType } from '../../state/features/loggedInSlice'
 import './LoginFrame.css'
 
 const LoginFrame: React.FC = () => {
@@ -26,8 +25,8 @@ const LoginFrame: React.FC = () => {
                     // Logged in
                     //If the logged in is succesfull you will acces this part of teh code where you will 
                     //get a lot of information about the user that have logged in
-                    const {email, uid} = userCredential.user
-                    const user = {email, uid, photoURL: "src/assets/user.png"};
+                    const { email, uid } = userCredential.user
+                    const user = { email, uid, photoURL: "src/assets/user.png" };
 
                     /*With the information of the user you can populate an state that is mainly focused on 
                     holding the information of the user that is logged in*/
