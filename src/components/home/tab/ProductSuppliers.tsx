@@ -1,10 +1,22 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { storeType } from "../../../state/store"
 import { productSupplier } from "../../../state/features/productSupplierSlice"
 import { Table } from "react-bootstrap"
+import { useEffect } from "react"
+import { getAllProductSuppliersAction } from "../../../actions/ProductSupplierAction"
 
 const ProductSuppliers = () => {
+
   const { value } = useSelector((state: storeType) => state.productSupplier)
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+
+    getAllProductSuppliersAction(dispatch)
+
+  }, [value])
+
   return (
     <Table striped bordered hover size="sm" responsive>
       <thead>
