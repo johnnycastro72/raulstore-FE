@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
-import { storeType } from "../../../state/store"
-import { productSupplier } from "../../../state/features/productSupplierSlice"
+import { storeType } from "../../../app/store/store"
+import { productSupplier } from "../../../features/productSupplierSlice"
 import { Table } from "react-bootstrap"
 import { useEffect } from "react"
 import { getAllProductSuppliersAction } from "../../../actions/ProductSupplierAction"

@@ -2,7 +2,7 @@ import { GithubAuthProvider, OAuthCredential, signInWithPopup } from 'firebase/a
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { auth } from "../../firebaseConfig";
-import { logInReducer, userType } from '../../state/features/loggedInSlice';
+import { logInReducer, userType } from '../../features/loggedInSlice';
 import './GitHubLogin.css'
 
 const providerGitHubAuth = new GithubAuthProvider();

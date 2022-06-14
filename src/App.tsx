@@ -5,7 +5,7 @@ import './App.css'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import { storeType } from './state/store'
+import { storeType } from './app/store/store'
 
 function App() {
 

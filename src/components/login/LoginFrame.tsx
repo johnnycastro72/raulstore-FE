@@ -1,7 +1,7 @@
 import { auth } from "../../firebaseConfig";
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
-import { logInReducer, userType } from '../../state/features/loggedInSlice';
+import { logInReducer, userType } from '../../features/loggedInSlice';
 import GoggleLogin from "./GoggleLogin";
 import GitHubLogin from "./GitHubLogin";
 import React, { ChangeEvent, useState } from "react";

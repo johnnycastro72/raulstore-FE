@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Stack } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
-import { userType } from '../../state/features/loggedInSlice'
-import { storeType } from '../../state/store'
+import { userType } from '../../features/loggedInSlice'
+import { storeType } from '../../app/store/store'
 import HeadLogOut from './headLogOut'
 import './Header.css'
 

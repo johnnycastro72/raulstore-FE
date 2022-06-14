@@ -6,7 +6,7 @@ import BillNote from "../components/home/bills/BillNote"
 import Footer from "../components/home/Footer"
 import Header from "../components/home/Header"
 import MainContainer from "../components/home/tab/MainContainer"
-import { storeType } from "../state/store"
+import { storeType } from "../app/store/store"
 
 const Home = () => {
   const { user } = useSelector((state: storeType ) => state.logged)
