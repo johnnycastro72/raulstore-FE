@@ -2,14 +2,14 @@ import { useEffect } from "react"
 import { Col, Container, Row } from "react-bootstrap"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { rootState } from "../app/store/store"
 import BillNote from "../components/home/bills/BillNote"
 import Footer from "../components/home/Footer"
 import Header from "../components/home/Header"
 import MainContainer from "../components/home/tab/MainContainer"
-import { storeType } from "../app/store/store"
 
 const Home = () => {
-  const { user } = useSelector((state: storeType ) => state.logged)
+  const { user } = useSelector((state: rootState ) => state.logged)
 
   const navigate = useNavigate()
 

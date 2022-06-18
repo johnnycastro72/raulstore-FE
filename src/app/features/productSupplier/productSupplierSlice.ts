@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { rootState } from "../store/store"
+import { rootState } from "../../store/store"
 
 interface productSupplierState {
-    value: productSupplier[]
+    suppliers: productSupplier[],
+    status: string, // 'idle' | 'loading' | 'succeded' | 'failed'
+    error: null
 }
 
 export interface productSupplier {
@@ -14,7 +16,10 @@ export interface productSupplier {
 }
 
 const initialState: productSupplierState = {
-    value: []
+    suppliers: [],
+    status: 'idle',
+    error: null
+
 }
 
 const productSupplierSlice = createSlice({
@@ -22,13 +27,13 @@ const productSupplierSlice = createSlice({
     initialState,
     reducers: {
         getAllProductSupplier: (state, action: PayloadAction<productSupplier[]>) => {
-            state.value = action.payload
+            state.suppliers = action.payload
         },
         addProductSupplier: (state, action: PayloadAction<productSupplier>) => {
-            state.value.push(action.payload)
+            state.suppliers.push(action.payload)
         },
         removeProductSupplier: (state, action: PayloadAction<number>) => {
-            state.value.splice(action.payload, 1)
+            state.suppliers.splice(action.payload, 1)
         }
     }
 })
@@ -37,4 +42,4 @@ export default productSupplierSlice.reducer
 
 export const { getAllProductSupplier, addProductSupplier, removeProductSupplier } = productSupplierSlice.actions
 
-export const selectProductSupplier = (state: rootState) => state.productSupplier.value
+export const selectAllSuppliers = (state: rootState) => state.productSupplier.suppliers

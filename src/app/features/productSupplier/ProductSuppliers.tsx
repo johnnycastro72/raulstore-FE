@@ -1,13 +1,13 @@
-import { productSupplier } from "../../../app/features/productSupplierSlice"
+import { productSupplier } from "./productSupplierSlice"
 import { Table } from "react-bootstrap"
 import { useEffect } from "react"
-import { getAllProductSuppliersAction } from "../../../actions/ProductSupplierAction"
+import { getAllProductSuppliersAction } from "../../actions/ProductSupplierAction"
 import { useAppDispatch, useAppSelector } from "../../../app/hooks"
 import { rootState } from "../../../app/store/store"
 
 const ProductSuppliers = () => {
 
-  const { value } = useAppSelector((state: rootState) => state.productSupplier)
+  const {suppliers} = useAppSelector((state: rootState) => state.productSupplier)
 
   const dispatch = useAppDispatch()
 
@@ -15,7 +15,7 @@ const ProductSuppliers = () => {
 
     getAllProductSuppliersAction(dispatch)
 
-  }, [value])
+  }, [suppliers])
 
   return (
     <Table striped bordered hover size="sm" responsive>
@@ -27,7 +27,7 @@ const ProductSuppliers = () => {
         </tr>
       </thead>
       <tbody>
-        {value.map((pSupplier: productSupplier) => {
+        {suppliers.map((pSupplier: productSupplier) => {
           return (
             <tr key={pSupplier.id}>
               <td>{pSupplier.taxPayerId}</td>
