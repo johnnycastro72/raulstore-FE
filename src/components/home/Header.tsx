@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { Stack } from 'react-bootstrap'
-import { useSelector } from 'react-redux'
 import { userType } from '../../features/loggedInSlice'
-import { storeType } from '../../app/store/store'
+import { rootState } from '../../app/store/store'
 import HeadLogOut from './headLogOut'
+import { useAppSelector } from '../../app/hooks'
 import './Header.css'
 
 const Header = () => {
-  const { user } = useSelector((state: storeType) => state.logged)
+  const { user } = useAppSelector((state: rootState) => state.logged)
 
   const { photoURL } = user as userType
 

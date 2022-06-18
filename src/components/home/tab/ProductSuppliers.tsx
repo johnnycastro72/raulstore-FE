@@ -1,15 +1,15 @@
-import { useDispatch, useSelector } from "react-redux"
-import { storeType } from "../../../app/store/store"
 import { productSupplier } from "../../../features/productSupplierSlice"
 import { Table } from "react-bootstrap"
 import { useEffect } from "react"
 import { getAllProductSuppliersAction } from "../../../actions/ProductSupplierAction"
+import { useAppDispatch, useAppSelector } from "../../../app/hooks"
+import { rootState } from "../../../app/store/store"
 
 const ProductSuppliers = () => {
 
-  const { value } = useSelector((state: storeType) => state.productSupplier)
+  const { value } = useAppSelector((state: rootState) => state.productSupplier)
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
 

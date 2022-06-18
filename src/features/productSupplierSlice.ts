@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { rootState } from "../app/store/store"
 
 interface productSupplierState {
     value: productSupplier[]
@@ -13,21 +14,7 @@ export interface productSupplier {
 }
 
 const initialState: productSupplierState = {
-    value: [
-        {
-            id: '00001',
-            taxPayerId: '88198758',
-            supplierName: 'Jhonny Castro Clavijo',
-            supplierPhone: '320-3707534',
-            supplierNotes: '',
-        }, {
-            id: '00002',
-            taxPayerId: '33454333',
-            supplierName: 'Mel Gibson',
-            supplierPhone: '1-922394444',
-            supplierNotes: '',
-        }
-    ]
+    value: []
 }
 
 const productSupplierSlice = createSlice({
@@ -49,3 +36,5 @@ const productSupplierSlice = createSlice({
 export default productSupplierSlice.reducer
 
 export const { getAllProductSupplier, addProductSupplier, removeProductSupplier } = productSupplierSlice.actions
+
+export const selectProductSupplier = (state: rootState) => state.productSupplier.value
