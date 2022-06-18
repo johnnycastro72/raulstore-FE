@@ -1,14 +1,14 @@
 import { GoogleAuthProvider, OAuthCredential, signInWithPopup } from "firebase/auth";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebaseConfig";
-import { logInReducer, userType } from "../../features/loggedInSlice";
+import { logInReducer, userType } from "../../app/features/loggedInSlice";
 import './GoogleLogin.css'
+import { useAppDispatch } from "../../app/hooks";
 
 const providerGoogleAuth = new GoogleAuthProvider();
 
 const GoggleLogin = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const signInWithGoogleButton = () => {
 

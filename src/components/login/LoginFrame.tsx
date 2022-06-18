@@ -1,15 +1,15 @@
 import { auth } from "../../firebaseConfig";
-import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
-import { logInReducer, userType } from '../../features/loggedInSlice';
+import { logInReducer, userType } from '../../app/features/loggedInSlice';
 import GoggleLogin from "./GoggleLogin";
 import GitHubLogin from "./GitHubLogin";
 import React, { ChangeEvent, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import './LoginFrame.css'
+import { useAppDispatch } from "../../app/hooks";
 
 const LoginFrame: React.FC = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')

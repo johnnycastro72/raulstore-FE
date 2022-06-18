@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import loggedInReducer from '../../features/loggedInSlice'
-import productSupplierReducer from '../../features/productSupplierSlice'
+import loggedInReducer from '../features/loggedInSlice'
+import productSupplierReducer from '../features/productSupplierSlice'
 
 const store = configureStore({
     reducer: {
         logged: loggedInReducer,
         productSupplier: productSupplierReducer
-    }
+    }   
 })
 
 export type rootState = ReturnType<typeof store.getState>

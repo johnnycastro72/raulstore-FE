@@ -1,16 +1,16 @@
-import { useState } from "react"
 import { Button, Card, Offcanvas } from "react-bootstrap"
-import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { auth } from "../../firebaseConfig"
-import { logOutReducer } from "../../features/loggedInSlice"
-import { storeType } from "../../app/store/store"
+import { logOutReducer } from "../../app/features/loggedInSlice"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { rootState } from "../../app/store/store"
+
 
 const headLogOut = () => {
 
-    const { user } = useSelector((state: storeType) => state.logged)
+    const { user } = useAppSelector((state: rootState) => state.logged)
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     const logOut = () => {

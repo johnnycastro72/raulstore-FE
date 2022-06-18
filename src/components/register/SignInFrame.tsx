@@ -1,12 +1,12 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { ChangeEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../app/hooks';
 import { auth } from '../../firebaseConfig';
 import './SignInFrame.css'
 
 const SignInFrame: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')

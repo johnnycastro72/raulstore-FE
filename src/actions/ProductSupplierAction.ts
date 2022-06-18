@@ -1,5 +1,5 @@
 import { appDispatch } from "../app/store/store"
-import { getAllProductSupplier } from "../features/productSupplierSlice"
+import { getAllProductSupplier } from "../app/features/productSupplierSlice"
 
 const APIURL = "https://raulstorebe.herokuapp.com/api/v1/productsuppliers"
 const CONTENT = {"Content-type":"application/json"}

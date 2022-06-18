@@ -1,14 +1,14 @@
 import { GithubAuthProvider, OAuthCredential, signInWithPopup } from 'firebase/auth'
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { auth } from "../../firebaseConfig";
-import { logInReducer, userType } from '../../features/loggedInSlice';
+import { logInReducer, userType } from '../../app/features/loggedInSlice';
 import './GitHubLogin.css'
+import { useAppDispatch } from '../../app/hooks';
 
 const providerGitHubAuth = new GithubAuthProvider();
 
 const GitHubLogin = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const signInWithGitHubButton = () => {
 

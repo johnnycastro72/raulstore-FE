@@ -1,4 +1,4 @@
-import { productSupplier } from "../../../features/productSupplierSlice"
+import { productSupplier } from "../../../app/features/productSupplierSlice"
 import { Table } from "react-bootstrap"
 import { useEffect } from "react"
 import { getAllProductSuppliersAction } from "../../../actions/ProductSupplierAction"

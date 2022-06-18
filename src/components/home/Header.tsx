@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Stack } from 'react-bootstrap'
-import { userType } from '../../features/loggedInSlice'
+import { userType } from '../../app/features/loggedInSlice'
 import { rootState } from '../../app/store/store'
 import HeadLogOut from './headLogOut'
 import { useAppSelector } from '../../app/hooks'
