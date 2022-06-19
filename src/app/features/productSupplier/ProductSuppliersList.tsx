@@ -52,7 +52,7 @@ const ProductSuppliersList = () => {
                 <td>{pSupplier.taxPayerId}</td>
                 <td>{pSupplier.supplierName}</td>
                 <td>{pSupplier.supplierPhone}</td>
-                <td align="center" width={10}><button className="tableBtn" onClick={() => removeProductSupplier(pSupplier.id as string)}><img style={{ width: "40%", height: "40%" }} src="https://firebasestorage.googleapis.com/v0/b/raul-s-hardware-store.appspot.com/o/assets%2FFalse.svg?alt=media&token=435aaf5a-9351-412f-84d4-cc5b5d68dec4" alt="Delete Product Provider" /></button></td>
+                <td align="center" width={10}><button className="tableBtn" onClick={() => removeProductSupplier(pSupplier.id as string)} ><img style={{ width: "40%", height: "40%" }} src="https://firebasestorage.googleapis.com/v0/b/raul-s-hardware-store.appspot.com/o/assets%2FFalse.svg?alt=media&token=435aaf5a-9351-412f-84d4-cc5b5d68dec4" alt="Delete Product Provider" /></button></td>
               </tr>);
           })}
         </tbody>
@@ -76,7 +76,7 @@ const ProductSuppliersList = () => {
                     <tr>
                       <td>{product.name}</td>
                       <td>{product.description}</td>
-                      <td style={{textAlign: 'center'}}>{product.units}</td>
+                      <td style={{ textAlign: 'center' }}>{product.units}</td>
                     </tr>)
                 })}
               </tbody>

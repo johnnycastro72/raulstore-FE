@@ -74,8 +74,7 @@ const productSupplierSlice = createSlice({
             })
             .addCase(deleteProductSupplierAction.fulfilled, (state: productSupplierState, action: PayloadAction<{deleted: boolean, id: string}>) => {
                 state.status = 'succeded';
-                console.log(action.payload);
-                if (action.payload.deleted) {
+               if (action.payload.deleted) {
                     const suppliersWithoutDeleted = state.suppliers.filter((supplier) => supplier.id != action.payload.id);
                     state.suppliers = suppliersWithoutDeleted;
                 }

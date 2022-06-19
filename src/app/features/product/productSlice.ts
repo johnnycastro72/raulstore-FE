@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { rootState } from "../../store/store"
-import { createProductAction, getAllProductsAction, Product } from "./productAction"
+import { createProductAction, deleteProductAction, getAllProductsAction, Product } from "./productAction"
 
 interface productState {
     products: Product[]
@@ -39,6 +39,20 @@ const productSlice = createSlice({
                 state.products.push(action.payload);
             })
             .addCase(createProductAction.rejected, (state: productState, action) => {
+                state.status = 'failed';
+                state.error = action.error.message || "";
+            })
+            .addCase(deleteProductAction.pending, (state: productState, action) => {
+                state.status = 'loading';
+            })
+            .addCase(deleteProductAction.fulfilled, (state: productState, action: PayloadAction<{deleted: boolean, id: string}>) => {
+                state.status = 'succeded';
+                if (action.payload.deleted) {
+                    const productsWithoutDeleted = state.products.filter((product) => product.id != action.payload.id);
+                    state.products = productsWithoutDeleted;
+                }
+            })
+            .addCase(deleteProductAction.rejected, (state: productState, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || "";
             })

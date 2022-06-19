@@ -27,5 +27,22 @@ const createProductAction = createAsyncThunk('products/createProduct',
         return response;
     })
 
+const deleteProductAction = createAsyncThunk('products/deleteProduct',
+    async (id: string) => {
+        const response = await fetch(`${APIURL}/delete/product/${id}`, { method: "DELETE" });
+        return {
+            deleted: response.ok,
+            id
+        }
+    })
 
-export { getAllProductsAction, createProductAction }
+const getProductsById =
+    async (id: string) => {
+        const response = await fetch(`${APIURL}/product/${id}`, { method: "GET" });
+        const data: Product = await response.json()
+        return data as Product;
+    }
+
+
+
+export { getAllProductsAction, createProductAction, deleteProductAction, getProductsById }
