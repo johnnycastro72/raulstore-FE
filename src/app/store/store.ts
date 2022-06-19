@@ -1,13 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import loggedInReducer from '../features/loggedInSlice'
-import productSupplierReducer from '../features/productSupplier/productSupplierSlice'
+import productSupplierReducer from '../features/productSupplier/ProductSupplierSlice'
 import productReducer from "../features/product/productSlice";
+import receiptReducer from "../features/receipt/ReceiptNoteSlice";
 
 const store = configureStore({
     reducer: {
         logged: loggedInReducer,
         productSupplier: productSupplierReducer,
-        product: productReducer
+        product: productReducer,
+        receiptNote: receiptReducer
     }   
 })
 

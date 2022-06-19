@@ -1,9 +1,8 @@
 import { ChangeEvent, FormEvent, FunctionComponent, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { productSupplier, selectAllSuppliers } from "../productSupplier/productSupplierSlice";
-import { createProductAction } from "./productAction";
-
+import { productSupplier, selectAllSuppliers } from "../productSupplier/ProductSupplierSlice";
+import { createProductAction } from "./ProductAction";
 
 interface IProductDetailProps { }
 
@@ -169,7 +168,6 @@ const ProductCreate: FunctionComponent<IProductDetailProps> = () => {
                                     <option key={index} value={productSupplier.supplierName.toString()}>{productSupplier.supplierName}</option>)}
                             </select>
                         </div>
-
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={showOff}>

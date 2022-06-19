@@ -1,10 +1,10 @@
-import { productSupplier, selectAllSuppliers, getSuppliersErrors, getSuppliersStatus } from "./productSupplierSlice"
+import { productSupplier, selectAllSuppliers, getSuppliersErrors, getSuppliersStatus } from "./ProductSupplierSlice"
 import { Alert, Button, Table } from "react-bootstrap"
 import { useAppDispatch, useAppSelector } from "../../hooks"
 import { useEffect, useState } from "react";
 import { deleteProductSupplierAction, getAllProductSuppliersAction, getProductsByProductSupplierId } from "./ProductSupplierAction";
 import AddProductSupplierDetail from "./ProductSupplierDetail";
-import { Product } from "../product/productAction";
+import { Product } from "../product/ProductAction";
 
 const ProductSuppliersList = () => {
   const dispatch = useAppDispatch();

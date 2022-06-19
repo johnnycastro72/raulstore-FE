@@ -3,6 +3,7 @@ import { Container, Tab, Tabs } from "react-bootstrap"
 import './MainContainer.css'
 import ProductSuppliersList from "../../../app/features/productSupplier/ProductSuppliersList"
 import ProductList from "../../../app/features/product/ProductList"
+import ReceiptNotesList from "../../../app/features/receipt/ReceiptNotesList"
 
 const MainContainer = () => {
 
@@ -22,7 +23,7 @@ const MainContainer = () => {
           <ProductSuppliersList />
         </Tab>
         <Tab eventKey="receipt" title="Receipts">
-          Receipt tab
+          <ReceiptNotesList />
         </Tab>
       </Tabs>
     </Container>
