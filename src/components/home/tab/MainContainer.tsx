@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Container, Tab, Tabs } from "react-bootstrap"
 import './MainContainer.css'
 import ProductSuppliersList from "../../../app/features/productSupplier/ProductSuppliersList"
+import ProductList from "../../../app/features/product/ProductList"
 
 const MainContainer = () => {
 
@@ -15,7 +16,7 @@ const MainContainer = () => {
         onSelect={(k) => setKey((k) ? k : "products")}
         className="mb-3">
         <Tab eventKey="products" title="Available Products">
-          Products tab
+          <ProductList />
         </Tab>
         <Tab eventKey="supplier" title="Product Suppliers">
           <ProductSuppliersList />

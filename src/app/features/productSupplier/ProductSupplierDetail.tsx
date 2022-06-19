@@ -1,20 +1,20 @@
-import * as React from "react";
+import { FormEvent, FunctionComponent, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useAppDispatch } from "../../hooks";
 import { createProductSupplierAction } from "./ProductSupplierAction";
 
 interface IAddProductSupplierFormProps { }
 
-const AddProductSupplierForm: React.FunctionComponent<IAddProductSupplierFormProps> = () => {
-    const [productSupplierId, SetProductSupplierId] = React.useState("");
-    const [productSupplierName, SetProductSupplierName] = React.useState("");
-    const [productSupplierPhone, SetProductSupplierPhone] = React.useState("");
-    const [showModal, setShowModal] = React.useState(false);
+const AddProductSupplierForm: FunctionComponent<IAddProductSupplierFormProps> = () => {
+    const [productSupplierId, SetProductSupplierId] = useState("");
+    const [productSupplierName, SetProductSupplierName] = useState("");
+    const [productSupplierPhone, SetProductSupplierPhone] = useState("");
+    const [showModal, setShowModal] = useState(false);
     const showOff = () => setShowModal(false);
     const showOn = () => setShowModal(true);
     const dispatch = useAppDispatch();
 
-    const createProductSupplierEvent = (e: React.FormEvent<HTMLFormElement>) => {
+    const createProductSupplierEvent = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (productSupplierId && productSupplierName && productSupplierPhone) {
             dispatch(createProductSupplierAction({

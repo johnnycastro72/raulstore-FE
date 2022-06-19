@@ -5,7 +5,7 @@ const APIURL = "https://raulstorebe.herokuapp.com/api/v1"
 const CONTENT = { "Content-type": "application/json" }
 
 export interface Product {
-    id: string
+    id?: string
     name: string
     description: string
     units: number
@@ -21,4 +21,11 @@ const getAllProductsAction = createAsyncThunk('products/getAllProducts',
         return response;
     })
 
-export { getAllProductsAction }
+const createProductAction = createAsyncThunk('products/createProduct',
+    async (payload: Product) => {
+        const response = await (await fetch(`${APIURL}/create/product`, { headers: CONTENT, method: "POST", body: JSON.stringify(payload) })).json();
+        return response;
+    })
+
+
+export { getAllProductsAction, createProductAction }

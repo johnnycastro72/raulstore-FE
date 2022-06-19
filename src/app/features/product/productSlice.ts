@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { rootState } from "../../store/store"
-import { getAllProductsAction, Product } from "./productAction"
+import { createProductAction, getAllProductsAction, Product } from "./productAction"
 
 interface productState {
     products: Product[]
@@ -20,17 +20,28 @@ const productSlice = createSlice({
     reducers: {},
     extraReducers(builder) {
         builder
-        .addCase(getAllProductsAction.pending, (state: productState, action) => {
-            state.status = 'loading';
-        })
-        .addCase(getAllProductsAction.fulfilled, (state: productState, action: PayloadAction<Product[]>) => {
-            state.status = 'succeded';
-            state.products = action.payload;
-        })
-        .addCase(getAllProductsAction.rejected, (state: productState, action) => {
-            state.status = 'failed';
-            state.error = action.error.message || "";
-        })
+            .addCase(getAllProductsAction.pending, (state: productState, action) => {
+                state.status = 'loading';
+            })
+            .addCase(getAllProductsAction.fulfilled, (state: productState, action: PayloadAction<Product[]>) => {
+                state.status = 'succeded';
+                state.products = action.payload;
+            })
+            .addCase(getAllProductsAction.rejected, (state: productState, action) => {
+                state.status = 'failed';
+                state.error = action.error.message || "";
+            })
+            .addCase(createProductAction.pending, (state: productState, action) => {
+                state.status = 'loading';
+            })
+            .addCase(createProductAction.fulfilled, (state: productState, action: PayloadAction<Product>) => {
+                state.status = 'succeded';
+                state.products.push(action.payload);
+            })
+            .addCase(createProductAction.rejected, (state: productState, action) => {
+                state.status = 'failed';
+                state.error = action.error.message || "";
+            })
     },
 })
 

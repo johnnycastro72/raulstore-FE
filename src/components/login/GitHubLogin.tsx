@@ -4,6 +4,7 @@ import { auth } from "../../firebaseConfig";
 import { logInReducer, userType } from '../../app/features/loggedInSlice';
 import './GitHubLogin.css'
 import { useAppDispatch } from '../../app/hooks';
+import { ThemeConsumer } from 'react-bootstrap/esm/ThemeProvider';
 
 const providerGitHubAuth = new GithubAuthProvider();
 
@@ -28,12 +29,13 @@ const GitHubLogin = () => {
                 /*Whit the information of the user you can populate an state that is mainly focused on 
                   holding the information of the user that is logged in*/
 
+                return user;  
+            })
+            .then((user) => {
                 dispatch(logInReducer(user as userType))
-
                 navigate('/home')
-
-                // ...
-            }).catch((error) => {
+            })
+            .catch((error) => {
 
                 //If the logged in is not succesfull yu will get to this part and with the message you can tell 
                 //the user what went wrong
