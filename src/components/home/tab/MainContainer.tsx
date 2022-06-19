@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Container, Tab, Tabs } from "react-bootstrap"
 import './MainContainer.css'
-import ProductSuppliers from "./ProductSuppliers"
+import ProductSuppliersList from "../../../app/features/productSupplier/ProductSuppliersList"
 
 const MainContainer = () => {
 
@@ -18,7 +18,7 @@ const MainContainer = () => {
           Products tab
         </Tab>
         <Tab eventKey="supplier" title="Product Suppliers">
-          <ProductSuppliers />
+          <ProductSuppliersList />
         </Tab>
         <Tab eventKey="receipt" title="Receipts">
           Receipt tab

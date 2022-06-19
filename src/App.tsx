@@ -15,17 +15,23 @@ function App() {
 
   useEffect(() => {
     if (user === null) {
-      navigate('/login')
+      navigate('/')
     }
   }, [])
 
   return (
     <div className="App">
-      <Routes>
-        <Route path="login" element={<Login />} />
-        <Route path='register' element={<Register />} />
-        <Route path='home' element={<Home />} />
-      </Routes>
+      {user ?
+        <Routes>
+          <Route path='home' element={<Home />} />
+        </Routes> :
+        <Routes>
+          <Route path="login" element={<Login />} />
+          <Route path='register' element={<Register />} />
+          <Route path='/' element={<Login />} />
+          <Route path='*' element={<Login />} />
+        </Routes>
+      }
     </div>
   )
 }
