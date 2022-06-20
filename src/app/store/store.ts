@@ -3,13 +3,15 @@ import loggedInReducer from '../features/loggedInSlice'
 import productSupplierReducer from '../features/productSupplier/ProductSupplierSlice'
 import productReducer from "../features/product/productSlice";
 import receiptReducer from "../features/receipt/ReceiptNoteSlice";
+import billReducer from "../features/bill/BillNoteSlice";
 
 const store = configureStore({
     reducer: {
         logged: loggedInReducer,
         productSupplier: productSupplierReducer,
         product: productReducer,
-        receiptNote: receiptReducer
+        receiptNote: receiptReducer,
+        billNote: billReducer
     }   
 })
 
