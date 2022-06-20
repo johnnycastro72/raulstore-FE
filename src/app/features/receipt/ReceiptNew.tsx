@@ -5,19 +5,20 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import { Product } from "../product/ProductAction";
 import { productSupplier, selectAllSuppliers } from "../productSupplier/ProductSupplierSlice";
 import { getProductsByProductSupplierId } from "./ReceiptNoteAction";
-import ReceiptNoteSlice, { receiptProduct } from "./ReceiptNoteSlice";
+import { receiptProduct } from "./ReceiptNoteSlice";
 
 interface IReceiptNoteProps { }
 
 const ReceiptNew: FunctionComponent<IReceiptNoteProps> = () => {
     const [receiptNumber, setReceiptNumber] = useState<string>("")
-    const [receiptSupplier, setReceiptSupplier] = useState<productSupplier>({
+    const [receiptProductSupplier, setReceiptProductSupplier] = useState<productSupplier>({
         id: "",
         supplierName: "",
         supplierNotes: "",
         supplierPhone: "",
         taxPayerId: ""
     })
+
     const [receiptDate, setReceiptDate] = useState<string>(moment().format("YYYY-MM-DD HH:mmZ"));
     const [items, setItems] = useState<receiptProduct[]>([]);
 
@@ -41,11 +42,11 @@ const ReceiptNew: FunctionComponent<IReceiptNoteProps> = () => {
     const selectProductSupplier = async (e: ChangeEvent<HTMLSelectElement>) => {
         e.preventDefault();
         const selectSupplier: productSupplier = productSuppliers.find((productSupplier) => productSupplier.supplierName === e.target.value) as productSupplier;
-        console.log(selectSupplier);
-        setReceiptSupplier(selectSupplier);
-        console.log(receiptSupplier);
-        
-        const receiptSupplierId = receiptSupplier?.id as string
+        if (selectSupplier)
+        setReceiptProductSupplier(selectSupplier);
+        console.log(receiptProductSupplier);
+
+        const receiptSupplierId = receiptProductSupplier.id as string
         const supplierProductsList: Product[] = await getProductsByProductSupplierId(receiptSupplierId) as Product[];
         setSupplierProducts(supplierProductsList);
         console.log(receiptSupplierId)
@@ -65,7 +66,13 @@ const ReceiptNew: FunctionComponent<IReceiptNoteProps> = () => {
     const cleanReceipt = () => {
         setReceiptNumber("");
         setReceiptDate(moment().format("YYYY-MM-DD HH:mmZ"));
-        setReceiptSupplier({} as productSupplier);
+        setReceiptProductSupplier({
+            id: "",
+            supplierName: "",
+            supplierNotes: "",
+            supplierPhone: "",
+            taxPayerId: ""
+        } as productSupplier);
         setItems([]);
     }
 
@@ -130,7 +137,7 @@ const ReceiptNew: FunctionComponent<IReceiptNoteProps> = () => {
                                 </select>
                             </div>
                             <div>
-                                <Button variant="primary" disabled={!(receiptSupplier?.supplierName)} onClick={showItemOn}>
+                                <Button variant="primary" disabled={!(receiptProductSupplier?.supplierName)} onClick={showItemOn}>
                                     Add an Item
                                 </Button>
                                 <Table striped bordered hover size="sm" responsive>
