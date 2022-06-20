@@ -75,7 +75,7 @@ const ReceiptNew: FunctionComponent<IReceiptNoteProps> = () => {
                 }
                 return { ...item, quantity: (item.quantity + actualItem.quantity) }
             })
-            const haveActualItem = listOfAddedItems.find((product) => product.productId === actualItem.productId)?.productId as string
+            const haveActualItem = listOfAddedItems.find((product) => product.productId === actualItem.productId)?.productId as string;
             const finalItemList = (haveActualItem) ? listOfAddedItems : [...listOfAddedItems, actualItem];
             const newActualItem = finalItemList.find((product) => product.productId === actualItem.productId) as receiptProduct;
             if (newActualItem.maximumUnits >= (newActualItem.productUnits + newActualItem.quantity)) {

@@ -1,6 +1,6 @@
 import moment from "moment"
-import { FormEvent, FunctionComponent, useEffect, useState } from "react"
-import { Button, Modal, Table } from "react-bootstrap"
+import { ChangeEvent, FormEvent, FunctionComponent, useEffect, useState } from "react"
+import { Alert, Button, Modal, Table } from "react-bootstrap"
 import { useAppSelector } from "../../hooks"
 import { rootState } from "../../store/store"
 import { Product } from "../product/productAction"
@@ -58,7 +58,59 @@ const BillNew: FunctionComponent<IBillNoteProps> = () => {
     }
 
     const createBillEvent = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
 
+    }
+
+    const addBillItemEvent = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const actualProduct = inStockProducts.find((product) => product.name === itemName) as Product;
+        const actualItem: billProduct = {
+            productId: actualProduct.id as string,
+            productName: actualProduct.name,
+            billQuantity: itemQuantity,
+            productMinimumUnits: actualProduct.minimumUnits,
+            productUnits: actualProduct.units,
+            productPrice: actualProduct.price
+        }
+        if (actualItem.productMinimumUnits <= (actualItem.productUnits - actualItem.billQuantity)) {
+            const listOfAddedItems = items.map((item) => {
+                if (item.productId != actualItem.productId) {
+                    return item;
+                }
+                return {
+                    ...item, quantity: (actualItem.productUnits - item.productUnits)
+                }
+            })
+            const haveActualItem = listOfAddedItems.find((product) => product.productId === actualItem.productId)?.productId as string;
+            const finalItemList = (haveActualItem) ? listOfAddedItems : [...listOfAddedItems, actualItem];
+            const newActualItem = finalItemList.find((product) => product.productId === actualItem.productId) as billProduct;
+            if (newActualItem.productMinimumUnits <= (newActualItem.productUnits - newActualItem.billQuantity)) {
+                const newBillTotal = finalItemList.reduce((accumulator, obj) => {
+                    return accumulator + (obj.billQuantity * obj.productPrice);
+                }, 0);
+                setBillTotal(newBillTotal);
+                setItems(finalItemList);
+                cleanItem();
+                return
+            }
+        }
+        setShowItem(true);
+        setTooLow(true);
+    }
+
+    const removeItem = (productId: string) => {
+        const itemsWithoutDeletedItem = items.filter((item) => item.productId != productId)
+        const newBillTotal = itemsWithoutDeletedItem.reduce((accumulator, obj) => {
+            return accumulator + (obj.billQuantity * obj.productPrice);
+        }, 0);
+        setBillTotal(newBillTotal);
+        setItems(itemsWithoutDeletedItem)
+    }
+
+    const selectItemProduct = (e: ChangeEvent<HTMLSelectElement>) => {
+        e.preventDefault();
+        setItemName(e.target.value)
     }
 
     return (
@@ -137,7 +189,7 @@ const BillNew: FunctionComponent<IBillNoteProps> = () => {
                                 />
                             </div>
                             <br />
-                            <Button variant="primary" disabled={!(customerName && billId)} onClick={() => { showItemOn(); productsInStock(); }}>
+                            <Button variant="primary" disabled={!(customerName)} onClick={() => { showItemOn(); productsInStock(); }}>
                                 Add an Item
                             </Button>
                             <Table striped bordered hover size="sm" responsive>
@@ -152,7 +204,28 @@ const BillNew: FunctionComponent<IBillNoteProps> = () => {
                                         <th>Del</th>
                                     </tr>
                                 </thead>
-
+                                <tbody>
+                                    {items.map((billProduct: billProduct) => {
+                                        return (
+                                            <tr key={billProduct.productId}>
+                                                <td>{billProduct.productName}</td>
+                                                <td align="center">{billProduct.productUnits}</td>
+                                                <td align="center">{billProduct.productMinimumUnits}</td>
+                                                <td align="center">{billProduct.billQuantity}</td>
+                                                <td align="right">{billProduct.productPrice}</td>
+                                                <td align="right">{billProduct.billQuantity * billProduct.productPrice}</td>
+                                                <td align='center' width={15}>
+                                                    <button className="tableBtn" onClick={
+                                                        () => removeItem(billProduct.productId as string)}><img style={
+                                                            { width: "110%", height: "110%" }}
+                                                            src="https://firebasestorage.googleapis.com/v0/b/raul-s-hardware-store.appspot.com/o/assets%2FFalse.svg?alt=media&token=435aaf5a-9351-412f-84d4-cc5b5d68dec4"
+                                                            alt="Delete Item" />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
                             </Table>
                         </Modal.Body>
                         <Modal.Footer>
@@ -180,6 +253,105 @@ const BillNew: FunctionComponent<IBillNoteProps> = () => {
                             </Button>
                         </Modal.Footer>
                     </form>
+                </Modal>
+            </>
+            <>
+                <Modal
+                    show={showItem}
+                    size="sm"
+                    onHide={showItemOff}
+                    backdrop="static"
+                    keyboard={false}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Add an Item</Modal.Title>
+                    </Modal.Header>
+                    <form onSubmit={(e) => addBillItemEvent(e)}>
+                        <Modal.Body>
+                            <div>
+                                <label>Select a Product to Sale</label>
+                                <select
+                                    id="itemName"
+                                    name="itemName"
+                                    defaultValue="none"
+                                    onChange={(e) => selectItemProduct(e)}
+                                    style={{ marginLeft: '0', width: '99%' }}
+                                    required
+                                >
+                                    <option value="none" disabled hidden>Select a Product</option>
+                                    {inStockProducts.map((inStockProduct, index) =>
+                                        <option key={index} value={inStockProduct.name.toString()}>{inStockProduct.name}</option>)}
+                                </select>
+                            </div>
+                            <br />
+                            <div>
+                                <label>Units to Sale</label>
+                                <input
+                                    id="itemQuantity"
+                                    type="number"
+                                    name="itemQuantity"
+                                    className="titleInput"
+                                    placeholder="Units to Sale"
+                                    value={itemQuantity}
+                                    min={1}
+                                    onChange={(e) => setItemQuantity(parseInt(e.target.value))}
+                                    style={{ width: '98%' }}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label>Unit Price</label>
+                                <input
+                                    id="itemPrice"
+                                    type="number"
+                                    name="itemPrice"
+                                    className="titleInput"
+                                    placeholder="Unit Price"
+                                    value={itemPrice}
+                                    min={1}
+                                    onChange={(e) => setItemPrice(parseInt(e.target.value))}
+                                    style={{ width: '98%' }}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label>Amount</label>
+                                <input
+                                    id="itemAmount"
+                                    type="number"
+                                    name="itemAmount"
+                                    className="titleInput"
+                                    placeholder="Amount"
+                                    value={itemQuantity * itemPrice}
+                                    style={{ width: '98%' }}
+                                    disabled
+                                    required
+                                />
+                            </div>
+                            <br />
+                            <>
+                                {tooLow &&
+                                    <Alert variant="warning">
+                                        <Alert.Heading>
+                                            <h5>Alert message!!!</h5>
+                                        </Alert.Heading>
+                                        <p>This product is running out of stock, it is suggested to order more from the supplier</p>
+                                        <Button onClick={() => setTooLow(false)}>Close</Button>
+                                    </Alert>
+                                }
+                            </>
+                            <br />
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={() => { showItemOff(); cleanItem(); }}>
+                                Cancel
+                            </Button>
+                            <Button type="submit" variant="primary" onClick={showItemOff}>
+                                Add Item
+                            </Button>
+                        </Modal.Footer>
+                    </form>
+
                 </Modal>
             </>
         </>
