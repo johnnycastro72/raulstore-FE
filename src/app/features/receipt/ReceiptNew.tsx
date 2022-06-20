@@ -2,7 +2,7 @@ import moment from "moment";
 import { ChangeEvent, FormEvent, FunctionComponent, useEffect, useState } from "react";
 import { Alert, Button, Modal, Table } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { Product } from "../product/productAction";
+import { addUnitsToInventoryAction, Product } from "../product/productAction";
 import { productSupplier, selectAllSuppliers } from "../productSupplier/ProductSupplierSlice";
 import { getProductsByProductSupplierId, newReceiptNoteAction } from "./ReceiptNoteAction";
 import { receiptProduct } from "./ReceiptNoteSlice";
@@ -38,12 +38,17 @@ const ReceiptNew: FunctionComponent<IReceiptNoteProps> = () => {
         e.preventDefault();
         if (receiptNumber && receiptSupplierName && receiptDate && items) {
             const productSupplierDto = productSuppliers.find((supplier) => supplier.supplierName === receiptSupplierName) as productSupplier;
-           dispatch(newReceiptNoteAction({
+            dispatch(newReceiptNoteAction({
                 receiptNumber,
                 productSupplier: productSupplierDto,
-                receiptDate: moment().format("YYYY-mm-ddTHH:MM:ss"),
+                receiptDate: moment().toISOString(),
                 items
             }))
+            items.map((item) => {
+                const productToChange = supplierProducts.find((product) => product.id === item.productId) as Product;
+                const productUpdated = {...productToChange, units: (productToChange.units + item.quantity)}
+                dispatch(addUnitsToInventoryAction(productUpdated))
+            })
             setReceiptNumber("");
             setReceiptSupplierName("");
             setReceiptDate("")

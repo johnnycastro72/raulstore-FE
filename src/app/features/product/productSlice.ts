@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { rootState } from "../../store/store"
-import { createProductAction, deleteProductAction, getAllProductsAction, Product } from "./productAction"
+import { addUnitsToInventoryAction, createProductAction, deleteProductAction, getAllProductsAction, Product } from "./productAction"
 
 interface productState {
     products: Product[]
@@ -53,6 +53,24 @@ const productSlice = createSlice({
                 }
             })
             .addCase(deleteProductAction.rejected, (state: productState, action) => {
+                state.status = 'failed';
+                state.error = action.error.message || "";
+            })
+            .addCase(addUnitsToInventoryAction.pending, (state: productState, action) => {
+                state.status = 'loading';
+            })
+            .addCase(addUnitsToInventoryAction.fulfilled, (state: productState, action: PayloadAction<Product>) => {
+                state.status = 'succeded';
+                const productsUpdated = state.products.map(
+                    (product) => {
+                        if (product.id === action.payload.id) {
+                            return action.payload
+                        }
+                        return product
+                    });
+                state.products = productsUpdated;
+            })
+            .addCase(addUnitsToInventoryAction.rejected, (state: productState, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || "";
             })

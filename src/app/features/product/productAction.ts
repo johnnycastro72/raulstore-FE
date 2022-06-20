@@ -36,6 +36,12 @@ const deleteProductAction = createAsyncThunk('products/deleteProduct',
         }
     })
 
+const addUnitsToInventoryAction = createAsyncThunk('products/updateproduct',
+    async (updateProduct: Product) => {
+        const response = await (await fetch(`${APIURL}/update/product/${updateProduct.id}`, { method: "PUT", headers: CONTENT, body: JSON.stringify(updateProduct) })).json();
+        return response;
+    })
+
 const getProductsById =
     async (id: string) => {
         const response = await fetch(`${APIURL}/product/${id}`, { method: "GET" });
@@ -45,4 +51,4 @@ const getProductsById =
 
 
 
-export { getAllProductsAction, createProductAction, deleteProductAction, getProductsById }
+export { getAllProductsAction, createProductAction, deleteProductAction, getProductsById, addUnitsToInventoryAction }
