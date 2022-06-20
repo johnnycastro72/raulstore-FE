@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { rootState } from "../../store/store"
-import { createProductAction, deleteProductAction, getAllProductsAction, Product } from "./ProductAction"
+import { createProductAction, deleteProductAction, getAllProductsAction, Product } from "./productAction"
 
 interface productState {
     products: Product[]

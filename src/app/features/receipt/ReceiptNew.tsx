@@ -1,29 +1,23 @@
 import moment from "moment";
-import { ChangeEvent, FormEvent, FunctionComponent, useState } from "react";
-import { Button, Modal, Table } from "react-bootstrap";
+import { ChangeEvent, FormEvent, FunctionComponent, useEffect, useState } from "react";
+import { Alert, Button, Modal, Table } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { Product } from "../product/ProductAction";
+import { Product } from "../product/productAction";
 import { productSupplier, selectAllSuppliers } from "../productSupplier/ProductSupplierSlice";
-import { getProductsByProductSupplierId } from "./ReceiptNoteAction";
+import { getProductsByProductSupplierId, newReceiptNoteAction } from "./ReceiptNoteAction";
 import { receiptProduct } from "./ReceiptNoteSlice";
 
 interface IReceiptNoteProps { }
 
 const ReceiptNew: FunctionComponent<IReceiptNoteProps> = () => {
     const [receiptNumber, setReceiptNumber] = useState<string>("")
-    const [receiptProductSupplier, setReceiptProductSupplier] = useState<productSupplier>({
-        id: "",
-        supplierName: "",
-        supplierNotes: "",
-        supplierPhone: "",
-        taxPayerId: ""
-    })
-
+    const [receiptSupplierName, setReceiptSupplierName] = useState<string>("")
     const [receiptDate, setReceiptDate] = useState<string>(moment().format("YYYY-MM-DD HH:mmZ"));
     const [items, setItems] = useState<receiptProduct[]>([]);
 
     const [itemName, setItemName] = useState("");
     const [itemQuantity, setItemQuantity] = useState(0);
+    const [tooMuch, setTooMuch] = useState(false);
 
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showItem, setShowItem] = useState<boolean>(false);
@@ -32,30 +26,60 @@ const ReceiptNew: FunctionComponent<IReceiptNoteProps> = () => {
     const showOn = () => setShowModal(true);
     const showItemOn = () => setShowItem(true);
     const showItemOff = () => setShowItem(false);
+    const productSuppliers: productSupplier[] = useAppSelector(selectAllSuppliers);
     const dispatch = useAppDispatch();
-    const productSuppliers = useAppSelector(selectAllSuppliers);
+
+    useEffect(() => {
+
+    }, [receiptNumber, receiptSupplierName, receiptDate, items, supplierProducts])
+
 
     const createReceiptEvent = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (receiptNumber && receiptSupplierName && receiptDate && items) {
+            const productSupplierDto = productSuppliers.find((supplier) => supplier.supplierName === receiptSupplierName) as productSupplier;
+           dispatch(newReceiptNoteAction({
+                receiptNumber,
+                productSupplier: productSupplierDto,
+                receiptDate: moment().format("YYYY-mm-ddTHH:MM:ss"),
+                items
+            }))
+            setReceiptNumber("");
+            setReceiptSupplierName("");
+            setReceiptDate("")
+            setItems([])
+            showOff()
+        }
     }
 
-    const selectProductSupplier = async (e: ChangeEvent<HTMLSelectElement>) => {
+    const addReceiptItemEvent = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const selectSupplier: productSupplier = productSuppliers.find((productSupplier) => productSupplier.supplierName === e.target.value) as productSupplier;
-        if (selectSupplier)
-        setReceiptProductSupplier(selectSupplier);
-        console.log(receiptProductSupplier);
-
-        const receiptSupplierId = receiptProductSupplier.id as string
-        const supplierProductsList: Product[] = await getProductsByProductSupplierId(receiptSupplierId) as Product[];
-        setSupplierProducts(supplierProductsList);
-        console.log(receiptSupplierId)
-        console.log(supplierProductsList)
-    }
-
-    const selectItemProduct = (e: ChangeEvent<HTMLSelectElement>) => {
-        e.preventDefault();
-        setItemName(e.target.value)
+        const actualProduct = supplierProducts.find((product) => product.name === itemName) as Product;
+        const actualItem: receiptProduct = {
+            productId: actualProduct.id as string,
+            productName: itemName,
+            quantity: itemQuantity,
+            productUnits: actualProduct.units,
+            maximumUnits: actualProduct.maximumUnits
+        }
+        if (actualItem.maximumUnits >= (actualItem.productUnits + actualItem.quantity)) {
+            const listOfAddedItems = items.map((item) => {
+                if (item.productId != actualItem.productId) {
+                    return item;
+                }
+                return { ...item, quantity: (item.quantity + actualItem.quantity) }
+            })
+            const haveActualItem = listOfAddedItems.find((product) => product.productId === actualItem.productId)?.productId as string
+            const finalItemList = (haveActualItem) ? listOfAddedItems : [...listOfAddedItems, actualItem];
+            const newActualItem = finalItemList.find((product) => product.productId === actualItem.productId) as receiptProduct;
+            if (newActualItem.maximumUnits >= (newActualItem.productUnits + newActualItem.quantity)) {
+                setItems(finalItemList);
+                cleanItem();
+                return
+            }
+        }
+        setShowItem(true);
+        setTooMuch(true);
     }
 
     const removeItem = (productId: string) => {
@@ -63,17 +87,32 @@ const ReceiptNew: FunctionComponent<IReceiptNoteProps> = () => {
         setItems(itemsWithoutDeletedItem)
     }
 
+    const selectProductSupplier = (e: ChangeEvent<HTMLSelectElement>) => {
+        e.preventDefault();
+        setReceiptSupplierName(e.target.value);
+    }
+
+    const productsBySupplier = async () => {
+        const selectSupplier = productSuppliers.find((productSupplier) => productSupplier.supplierName === receiptSupplierName) as productSupplier
+        const supplierProductsList: Product[] = await getProductsByProductSupplierId(selectSupplier.id as string);
+        setSupplierProducts(supplierProductsList);
+    }
+
+    const selectItemProduct = (e: ChangeEvent<HTMLSelectElement>) => {
+        e.preventDefault();
+        setItemName(e.target.value)
+    }
+
     const cleanReceipt = () => {
         setReceiptNumber("");
         setReceiptDate(moment().format("YYYY-MM-DD HH:mmZ"));
-        setReceiptProductSupplier({
-            id: "",
-            supplierName: "",
-            supplierNotes: "",
-            supplierPhone: "",
-            taxPayerId: ""
-        } as productSupplier);
+        setReceiptSupplierName("");
         setItems([]);
+    }
+
+    const cleanItem = () => {
+        setItemName("");
+        setItemQuantity(0);
     }
 
     return (
@@ -137,14 +176,15 @@ const ReceiptNew: FunctionComponent<IReceiptNoteProps> = () => {
                                 </select>
                             </div>
                             <div>
-                                <Button variant="primary" disabled={!(receiptProductSupplier?.supplierName)} onClick={showItemOn}>
+                                <Button variant="primary" disabled={!(receiptSupplierName)} onClick={() => { showItemOn(); productsBySupplier(); }}>
                                     Add an Item
                                 </Button>
                                 <Table striped bordered hover size="sm" responsive>
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Description</th>
+                                            <th>Units</th>
+                                            <th>Maximum</th>
                                             <th>Quantity</th>
                                             <th>Del</th>
                                         </tr>
@@ -155,6 +195,7 @@ const ReceiptNew: FunctionComponent<IReceiptNoteProps> = () => {
                                                 <tr key={receiptProduct.productId}>
                                                     <td>{receiptProduct.productName}</td>
                                                     <td align='center'>{receiptProduct.productUnits}</td>
+                                                    <td align='center'>{receiptProduct.maximumUnits}</td>
                                                     <td align='center'>{receiptProduct.quantity}</td>
                                                     <td align='center' width={15}>
                                                         <button className="tableBtn" onClick={
@@ -196,10 +237,10 @@ const ReceiptNew: FunctionComponent<IReceiptNoteProps> = () => {
                     <Modal.Header closeButton>
                         <Modal.Title>Add an Item</Modal.Title>
                     </Modal.Header>
-                    <form>
+                    <form onSubmit={(e) => addReceiptItemEvent(e)}>
                         <Modal.Body>
                             <div>
-                                <label>Select a Product</label>
+                                <label>Received Product</label>
                                 <select
                                     id="itemName"
                                     name="itemName"
@@ -208,17 +249,49 @@ const ReceiptNew: FunctionComponent<IReceiptNoteProps> = () => {
                                     style={{ marginLeft: '0', width: '99%' }}
                                     required
                                 >
-                                    <option value="none" disabled hidden>Select an Product</option>
+                                    <option value="none" disabled hidden>Select a Product</option>
                                     {supplierProducts.map((supplierProduct, index) =>
                                         <option key={index} value={supplierProduct.name.toString()}>{supplierProduct.name}</option>)}
                                 </select>
-                                <br />
-                                <br />
-                                <br />
-                                <br />
-                                <br />
                             </div>
+                            <br />
+                            <div>
+                                <label>Received Units</label>
+                                <input
+                                    id="itemQuantity"
+                                    type="number"
+                                    name="itemQuantity"
+                                    className="titleInput"
+                                    placeholder="Received Units"
+                                    value={itemQuantity}
+                                    min={1}
+                                    onChange={(e) => setItemQuantity(parseInt(e.target.value))}
+                                    style={{ width: '98%' }}
+                                    required
+                                />
+                            </div>
+                            <br />
+                            <>
+                                {tooMuch &&
+                                    <Alert variant="warning">
+                                        <Alert.Heading>
+                                            <h5>Alert message!!!</h5>
+                                        </Alert.Heading>
+                                        <p>You are receiving more units than the maximum allowed</p>
+                                        <Button onClick={() => setTooMuch(false)}>Close</Button>
+                                    </Alert>
+                                }
+                            </>
+                            <br />
                         </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={() => { showItemOff(); cleanItem(); }}>
+                                Cancel
+                            </Button>
+                            <Button type="submit" variant="primary" onClick={showItemOff}>
+                                Add Item
+                            </Button>
+                        </Modal.Footer>
                     </form>
                 </Modal>
             </>
@@ -227,25 +300,3 @@ const ReceiptNew: FunctionComponent<IReceiptNoteProps> = () => {
 }
 
 export default ReceiptNew
-/*
-{
-  "id": "string",
-  "receiptNumber": "string",
-  "productSupplier": {
-    "id": "string",
-    "taxPayerId": "string",
-    "supplierName": "string",
-    "supplierPhone": "string",
-    "supplierNotes": "string"
-  },
-  "receiptDate": "2022-06-19T19:49:03.467Z",
-  "items": [
-    {
-      "productId": "string",
-      "productName": "string",
-      "quantity": 0,
-      "productUnits": 0,
-      "maximumUnits": 0
-    }
-  ]
-}    */

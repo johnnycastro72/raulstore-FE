@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { Product } from "../product/ProductAction";
+import { Product } from "../product/productAction";
 import { productSupplier } from "./ProductSupplierSlice";
 
 const APIURL = "https://raulstorebe.herokuapp.com/api/v1"

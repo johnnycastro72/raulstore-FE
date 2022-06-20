@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Alert, Button, Form, Modal, Table } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../hooks'
-import { deleteProductAction, getAllProductsAction, getProductsById, Product } from './ProductAction';
+import { deleteProductAction, getAllProductsAction, getProductsById, Product } from './productAction';
 import ProductCreate from './ProductCreate';
 import { getProductsErrors, getProductsStatus, selectAllProducts } from './productSlice';
 

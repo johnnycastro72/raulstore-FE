@@ -35,6 +35,7 @@ const ReceiptNotesList = () => {
                     {receipts.map((receipt: receiptNote) => {
                         return (
                             <tr key={receipt.receiptNumber}>
+                                <td>{receipt.receiptNumber}</td>
                                 <td>{receipt.receiptDate}</td>
                                 <td>{receipt.productSupplier.supplierName}</td>
                                 <td>{receipt.items.length}</td>

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { rootState } from '../../store/store'
 import { productSupplier } from '../productSupplier/ProductSupplierSlice'
-import { getAllReceiptNotesAction } from './ReceiptNoteAction'
+import { getAllReceiptNotesAction, newReceiptNoteAction } from './ReceiptNoteAction'
 
 interface receiptNoteState {
     receiptNotes: receiptNote[]
@@ -47,6 +47,17 @@ const ReceiptNoteSlice = createSlice({
                 state.receiptNotes = action.payload;
             })
             .addCase(getAllReceiptNotesAction.rejected, (state: receiptNoteState, action) => {
+                state.status = 'failed';
+                state.error = action.error.message || "";
+            })
+            .addCase(newReceiptNoteAction.pending, (state: receiptNoteState, action) => {
+                state.status = 'loading';
+            })
+            .addCase(newReceiptNoteAction.fulfilled, (state: receiptNoteState, action: PayloadAction<receiptNote>) => {
+                state.status = 'succeded';
+                state.receiptNotes.push(action.payload);
+            })
+            .addCase(newReceiptNoteAction.rejected, (state: receiptNoteState, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || "";
             })

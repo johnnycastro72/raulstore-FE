@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, FunctionComponent, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { productSupplier, selectAllSuppliers } from "../productSupplier/ProductSupplierSlice";
-import { createProductAction } from "./ProductAction";
+import { createProductAction } from "./productAction";
 
 interface IProductDetailProps { }
 
