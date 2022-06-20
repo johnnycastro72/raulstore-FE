@@ -42,6 +42,7 @@ const addUnitsToInventoryAction = createAsyncThunk('products/updateproduct',
         return response;
     })
 
+
 const getProductsById =
     async (id: string) => {
         const response = await fetch(`${APIURL}/product/${id}`, { method: "GET" });

@@ -1,10 +1,10 @@
 import moment from "moment"
 import { ChangeEvent, FormEvent, FunctionComponent, useEffect, useState } from "react"
 import { Alert, Button, Modal, Table } from "react-bootstrap"
-import { useAppSelector } from "../../hooks"
+import { useAppDispatch, useAppSelector } from "../../hooks"
 import { rootState } from "../../store/store"
-import { Product } from "../product/productAction"
-import { getProductsInStockGreaterThanAction } from "./BillNoteAction"
+import { addUnitsToInventoryAction, Product } from "../product/productAction"
+import { getProductsInStockGreaterThanAction, newBillNoteAction } from "./BillNoteAction"
 import { billProduct } from "./BillNoteSlice"
 import { v4 as uuidv4 } from 'uuid'
 
@@ -32,6 +32,7 @@ const BillNew: FunctionComponent<IBillNoteProps> = () => {
     const showItemOff = () => setShowItem(false);
 
     const [inStockProducts, setInStockProducts] = useState<Product[]>([] as Product[])
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
 
@@ -59,7 +60,28 @@ const BillNew: FunctionComponent<IBillNoteProps> = () => {
 
     const createBillEvent = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-
+        if (customerName && items) {
+            dispatch(newBillNoteAction({
+                billId,
+                billDate: moment().toISOString(),
+                customerName,
+                salesPerson,
+                billTotal,
+                items
+            }))
+            items.map((item) => {
+                const productToChange = inStockProducts.find((product) => product.id === item.productId) as Product;
+                const productUpated = { ...productToChange, units: (productToChange.units - item.billQuantity) }
+                dispatch(addUnitsToInventoryAction(productUpated))
+            })
+            setBillId("");
+            setBillDate("");
+            setCustomerName("");
+            setSalesPerson("");
+            setBillTotal(0);
+            setItems([]);
+            showOff();
+        }
     }
 
     const addBillItemEvent = (e: FormEvent<HTMLFormElement>) => {
@@ -79,13 +101,16 @@ const BillNew: FunctionComponent<IBillNoteProps> = () => {
                     return item;
                 }
                 return {
-                    ...item, quantity: (actualItem.productUnits - item.productUnits)
+                    ...item, billQuantity: (item.billQuantity + actualItem.billQuantity)
                 }
             })
             const haveActualItem = listOfAddedItems.find((product) => product.productId === actualItem.productId)?.productId as string;
             const finalItemList = (haveActualItem) ? listOfAddedItems : [...listOfAddedItems, actualItem];
             const newActualItem = finalItemList.find((product) => product.productId === actualItem.productId) as billProduct;
-            if (newActualItem.productMinimumUnits <= (newActualItem.productUnits - newActualItem.billQuantity)) {
+            if (newActualItem.productMinimumUnits > (newActualItem.productUnits - newActualItem.billQuantity)) {
+                alert("This product is running out of stock, it is suggested to order more from the supplier")
+            }
+            if (newActualItem.productUnits >= newActualItem.billQuantity) {
                 const newBillTotal = finalItemList.reduce((accumulator, obj) => {
                     return accumulator + (obj.billQuantity * obj.productPrice);
                 }, 0);
@@ -111,6 +136,8 @@ const BillNew: FunctionComponent<IBillNoteProps> = () => {
     const selectItemProduct = (e: ChangeEvent<HTMLSelectElement>) => {
         e.preventDefault();
         setItemName(e.target.value)
+        const actualItemPrice = inStockProducts.find((product) => product.name === e.target.value)?.price as number;
+        setItemPrice(actualItemPrice);
     }
 
     return (
@@ -335,7 +362,7 @@ const BillNew: FunctionComponent<IBillNoteProps> = () => {
                                         <Alert.Heading>
                                             <h5>Alert message!!!</h5>
                                         </Alert.Heading>
-                                        <p>This product is running out of stock, it is suggested to order more from the supplier</p>
+                                        <p>You are trying to sell more than the quantity available</p>
                                         <Button onClick={() => setTooLow(false)}>Close</Button>
                                     </Alert>
                                 }
@@ -359,22 +386,3 @@ const BillNew: FunctionComponent<IBillNoteProps> = () => {
 }
 
 export default BillNew
-
-{/* {
-  "id": "string",
-  "billId": "string",
-  "billDate": "2022-06-20T14:40:48.489Z",
-  "customerName": "string",
-  "salesPerson": "string",
-  "billTotal": 0,
-  "items": [
-    {
-      "productId": "string",
-      "productName": "string",
-      "billQuantity": 0,
-      "productPrice": 0,
-      "productUnits": 0,
-      "productMinimumUnits": 0
-    }
-  ]
-} */}

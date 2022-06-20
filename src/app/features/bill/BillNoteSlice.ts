@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { rootState } from "../../store/store"
-import { getAllBillNotesAction } from "./BillNoteAction"
+import { getAllBillNotesAction, newBillNoteAction } from "./BillNoteAction"
 
 interface billNoteState {
     billNotes: billNote[]
@@ -49,6 +49,17 @@ const BillNoteSlice = createSlice({
                 state.billNotes = action.payload;
             })
             .addCase(getAllBillNotesAction.rejected, (state: billNoteState, action) => {
+                state.status = 'failed';
+                state.error = action.error.message || "";
+            })
+            .addCase(newBillNoteAction.pending, (state: billNoteState, action) => {
+                state.status = 'loading';
+            })
+            .addCase(newBillNoteAction.fulfilled, (state: billNoteState, action: PayloadAction<billNote>) => {
+                state.status = 'succeded';
+                state.billNotes.push(action.payload);
+            })
+            .addCase(newBillNoteAction.rejected, (state: billNoteState, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || "";
             })

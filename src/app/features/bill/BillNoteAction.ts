@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Product } from "../product/productAction";
+import { billNote } from "./BillNoteSlice";
 
 const APIURL = "https://raulstorebe.herokuapp.com/api/v1"
 const CONTENT = { "Content-type": "application/json" }
@@ -10,6 +11,12 @@ const getAllBillNotesAction = createAsyncThunk('billNotes/getAllBillNotes',
         return response;
     })
 
+const newBillNoteAction = createAsyncThunk('billNotes/newBillNote',
+    async (payload: billNote) => {
+        const response = await (await fetch(`${APIURL}/create/billnote`, { headers: CONTENT, method: "POST", body: JSON.stringify(payload) })).json();
+        return response;
+    })
+
 const getProductsInStockGreaterThanAction =
     async (units: number) => {
         const response = await fetch(`${APIURL}/product/stock/${units}`, { method: "GET" });
@@ -17,4 +24,4 @@ const getProductsInStockGreaterThanAction =
         return data as Product[];
     }
 
-export { getAllBillNotesAction, getProductsInStockGreaterThanAction }
+export { getAllBillNotesAction, getProductsInStockGreaterThanAction, newBillNoteAction }
