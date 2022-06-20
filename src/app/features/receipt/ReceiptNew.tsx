@@ -21,11 +21,12 @@ const ReceiptNew: FunctionComponent<IReceiptNoteProps> = () => {
 
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showItem, setShowItem] = useState<boolean>(false);
-    const [supplierProducts, setSupplierProducts] = useState<Product[]>([] as Product[])
     const showOff = () => setShowModal(false);
     const showOn = () => setShowModal(true);
     const showItemOn = () => setShowItem(true);
     const showItemOff = () => setShowItem(false);
+
+    const [supplierProducts, setSupplierProducts] = useState<Product[]>([] as Product[])
     const productSuppliers: productSupplier[] = useAppSelector(selectAllSuppliers);
     const dispatch = useAppDispatch();
 

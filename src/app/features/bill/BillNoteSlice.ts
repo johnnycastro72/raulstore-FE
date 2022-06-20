@@ -23,6 +23,7 @@ export interface billProduct {
     productName: string
     billQuantity: number
     productUnits: number
+    productPrice: number
     productMinimumUnits: number
 }
 
